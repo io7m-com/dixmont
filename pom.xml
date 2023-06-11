@@ -8,12 +8,12 @@
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
     <artifactId>com.io7m.primogenitor.full</artifactId>
-    <version>7.5.0</version>
+    <version>7.7.0</version>
   </parent>
 
   <groupId>com.io7m.dixmont</groupId>
   <artifactId>com.io7m.dixmont</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>com.io7m.dixmont</name>
@@ -27,9 +27,8 @@
   </modules>
 
   <properties>
-    <com.io7m.xstructural.version>1.2.0</com.io7m.xstructural.version>
     <io7m.api.previousVersion>0.0.1-SNAPSHOT</io7m.api.previousVersion>
-    <jackson.version>2.15.0</jackson.version>
+    <jackson.version>2.15.2</jackson.version>
     <org.immutables.version>2.8.8</org.immutables.version>
     <junit.version>5.9.3</junit.version>
   </properties>
@@ -152,21 +151,6 @@
     </pluginManagement>
 
     <plugins>
-      <!-- Generate immutables.org types -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <annotationProcessorPaths>
-            <dependency>
-              <groupId>org.immutables</groupId>
-              <artifactId>value</artifactId>
-              <version>${org.immutables.version}</version>
-            </dependency>
-          </annotationProcessorPaths>
-        </configuration>
-      </plugin>
-
       <!-- Generate a site -->
       <plugin>
         <groupId>com.io7m.minisite</groupId>
