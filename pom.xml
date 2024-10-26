@@ -33,7 +33,7 @@
 
     <!-- Third-party dependencies. -->
     <jackson.version>2.18.0</jackson.version>
-    <junit.version>5.11.2</junit.version>
+    <org.junit.version>5.11.2</org.junit.version>
   </properties>
 
   <licenses>
@@ -112,14 +112,11 @@
         <version>2.0.16</version>
       </dependency>
       <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>${junit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>${junit.version}</version>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${org.junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>ch.qos.logback</groupId>
