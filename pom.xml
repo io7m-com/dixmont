@@ -21,6 +21,7 @@
   <url>https://www.io7m.com/software/dixmont</url>
 
   <modules>
+    <module>com.io7m.dixmont.carbide</module>
     <module>com.io7m.dixmont.colors</module>
     <module>com.io7m.dixmont.core</module>
     <module>com.io7m.dixmont.tests</module>
@@ -103,6 +104,11 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-annotations</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jdk8</artifactId>
         <version>${jackson.version}</version>
       </dependency>
 
