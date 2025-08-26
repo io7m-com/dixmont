@@ -4,7 +4,7 @@ dixmont
 [![Maven Central](https://img.shields.io/maven-central/v/com.io7m.dixmont/com.io7m.dixmont.svg?style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.io7m.dixmont%22)
 [![Maven Central (snapshot)](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fcom%2Fio7m%2Fdixmont%2Fcom.io7m.dixmont%2Fmaven-metadata.xml&style=flat-square)](https://central.sonatype.com/repository/maven-snapshots/com/io7m/dixmont/)
 [![Codecov](https://img.shields.io/codecov/c/github/io7m-com/dixmont.svg?style=flat-square)](https://codecov.io/gh/io7m-com/dixmont)
-![Java Version](https://img.shields.io/badge/21-java?label=java&color=e6c35c)
+![Java Version](https://img.shields.io/badge/17-java?label=java&color=e65cc3)
 
 ![com.io7m.dixmont](./src/site/resources/dixmont.jpg?raw=true)
 
