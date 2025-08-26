@@ -22,7 +22,7 @@ Some useful extension classes for [jackson](https://github.com/FasterXML/jackson
 ### Features
 
 * Restricted JSON deserializer for preventing reflection-based serialization attacks.
-* Written in pure Java 21.
+* Written in pure Java 17.
 * [OSGi](https://www.osgi.org/) ready.
 * [JPMS](https://en.wikipedia.org/wiki/Java_Platform_Module_System) ready.
 * ISC license.
