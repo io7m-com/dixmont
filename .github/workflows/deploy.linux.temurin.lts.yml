@@ -1,9 +1,18 @@
+#
+#  Automatically generated: DO NOT EDIT.
+#
+#  Generation code: https://www.github.com/io7m-com/.github/
+#  Workflow profile: Core
+#
 
 name: deploy.linux.temurin.lts
 
 on:
   push:
     tags: [ com.io7m.dixmont-* ]
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -16,16 +25,19 @@ jobs:
       - name: JDK
         uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-version: 23
           distribution: temurin
+
+      - name: Check PGP version
+        run: gpg --version
 
       - name: Import signing key
         env:
           PGP_SIGNING_KEY: ${{ secrets.PGP_SIGNING_KEY }}
-        run: echo "${PGP_SIGNING_KEY}" | gpg --import
+        run: echo "${PGP_SIGNING_KEY}" | gpg -v --import
 
       - name: Log in to Quay.io.
-        uses: redhat-actions/podman-login@v1.7
+        uses: redhat-actions/podman-login@4934294ad0449894bcd1e9f191899d7292469603
         with:
           username: ${{ secrets.QUAY_IO_USERNAME }}
           password: ${{ secrets.QUAY_IO_PASSWORD }}

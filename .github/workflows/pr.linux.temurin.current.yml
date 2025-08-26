@@ -1,22 +1,31 @@
+#
+#  Automatically generated: DO NOT EDIT.
+#
+#  Generation code: https://www.github.com/io7m-com/.github/
+#  Workflow profile: Core
+#
 
 name: pr.linux.temurin.current
 
 on:
   pull_request:
-    branches: [ develop, feature/*, release/* ]
+    branches: [ master, main, develop, feature/*, release/* ]
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           submodules: true
 
       - name: JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00
         with:
-          java-version: 22
+          java-version: 23
           distribution: 'temurin'
 
       - name: Collect project version
@@ -27,11 +36,14 @@ jobs:
         id: project_is_snapshot
         run: java .github/workflows/Tools.java ShowProjectIsSnapshot pom.xml >> "$GITHUB_OUTPUT"
 
+
       - name: Build
+        env:
+          XOANON_REALLY_USE_LOCAL_DISPLAY: true
         run: mvn --batch-mode --strict-checksums --errors clean verify site
 
       - name: Upload test logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: test-logs
