@@ -33,7 +33,7 @@
 
     <!-- Third-party dependencies. -->
     <jackson.version>2.20.1</jackson.version>
-    <org.junit.version>5.14.0</org.junit.version>
+    <org.junit.version>5.14.1</org.junit.version>
   </properties>
 
   <licenses>
