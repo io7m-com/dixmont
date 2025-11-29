@@ -256,4 +256,32 @@ public final class DmJsonRestrictedDeserializersTest
         })
     );
   }
+
+  @Test
+  public void testMultiConvenience()
+    throws Exception
+  {
+    final var deserializers =
+      DmJsonRestrictedDeserializers.builder()
+        .allowClasses(Set.of(Integer.class))
+        .build();
+
+    final var simpleModule = new SimpleModule();
+    simpleModule.setDeserializers(deserializers);
+
+    final var builder = JsonMapper.builder();
+    builder.addModule(simpleModule);
+
+    final var mapper =
+      (ObjectMapper) builder.disable(FAIL_ON_UNKNOWN_PROPERTIES)
+        .build();
+
+    assertEquals(
+      Integer.valueOf(23),
+      mapper.readValue(
+        "23", new TypeReference<Integer>()
+        {
+        })
+    );
+  }
 }
