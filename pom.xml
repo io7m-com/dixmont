@@ -13,7 +13,7 @@
 
   <groupId>com.io7m.dixmont</groupId>
   <artifactId>com.io7m.dixmont</artifactId>
-  <version>3.0.0</version>
+  <version>3.0.1-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>com.io7m.dixmont</name>
@@ -28,7 +28,7 @@
 
   <properties>
     <!-- Configuration -->
-    <io7m.api.previousVersion>2.1.0</io7m.api.previousVersion>
+    <io7m.api.previousVersion>3.0.0</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>17</io7m.java.targetJavaVersion>
 
     <!-- Third-party dependencies. -->
