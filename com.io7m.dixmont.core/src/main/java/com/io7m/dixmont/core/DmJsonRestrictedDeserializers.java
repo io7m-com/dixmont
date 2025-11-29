@@ -16,23 +16,21 @@
 
 package com.io7m.dixmont.core;
 
-import com.fasterxml.jackson.databind.BeanDescription;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.KeyDeserializer;
-import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
-import com.fasterxml.jackson.databind.module.SimpleDeserializers;
-import com.fasterxml.jackson.databind.type.ArrayType;
-import com.fasterxml.jackson.databind.type.CollectionLikeType;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.MapLikeType;
-import com.fasterxml.jackson.databind.type.MapType;
-import com.fasterxml.jackson.databind.type.ReferenceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.BeanDescription;
+import tools.jackson.databind.DeserializationConfig;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.KeyDeserializer;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.jsontype.TypeDeserializer;
+import tools.jackson.databind.module.SimpleDeserializers;
+import tools.jackson.databind.type.ArrayType;
+import tools.jackson.databind.type.CollectionLikeType;
+import tools.jackson.databind.type.CollectionType;
+import tools.jackson.databind.type.MapLikeType;
+import tools.jackson.databind.type.MapType;
+import tools.jackson.databind.type.ReferenceType;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -81,13 +79,12 @@ public final class DmJsonRestrictedDeserializers extends SimpleDeserializers
   }
 
   @Override
-  public JsonDeserializer<?> findArrayDeserializer(
+  public ValueDeserializer<?> findArrayDeserializer(
     final ArrayType type,
     final DeserializationConfig config,
-    final BeanDescription beanDesc,
+    final BeanDescription.Supplier beanDesc,
     final TypeDeserializer elementTypeDeserializer,
-    final JsonDeserializer<?> elementDeserializer)
-    throws JsonMappingException
+    final ValueDeserializer<?> elementDeserializer)
   {
     this.checkAllowed(type.toCanonical());
     return super.findArrayDeserializer(
@@ -99,24 +96,22 @@ public final class DmJsonRestrictedDeserializers extends SimpleDeserializers
   }
 
   @Override
-  public JsonDeserializer<?> findBeanDeserializer(
+  public ValueDeserializer<?> findBeanDeserializer(
     final JavaType type,
     final DeserializationConfig config,
-    final BeanDescription beanDesc)
-    throws JsonMappingException
+    final BeanDescription.Supplier beanDesc)
   {
     this.checkAllowed(type.getRawClass().getCanonicalName());
     return super.findBeanDeserializer(type, config, beanDesc);
   }
 
   @Override
-  public JsonDeserializer<?> findCollectionDeserializer(
+  public ValueDeserializer<?> findCollectionDeserializer(
     final CollectionType type,
     final DeserializationConfig config,
-    final BeanDescription beanDesc,
+    final BeanDescription.Supplier beanDesc,
     final TypeDeserializer elementTypeDeserializer,
-    final JsonDeserializer<?> elementDeserializer)
-    throws JsonMappingException
+    final ValueDeserializer<?> elementDeserializer)
   {
     this.checkAllowed(type.toCanonical());
     return super.findCollectionDeserializer(
@@ -128,13 +123,12 @@ public final class DmJsonRestrictedDeserializers extends SimpleDeserializers
   }
 
   @Override
-  public JsonDeserializer<?> findCollectionLikeDeserializer(
+  public ValueDeserializer<?> findCollectionLikeDeserializer(
     final CollectionLikeType type,
     final DeserializationConfig config,
-    final BeanDescription beanDesc,
+    final BeanDescription.Supplier beanDesc,
     final TypeDeserializer elementTypeDeserializer,
-    final JsonDeserializer<?> elementDeserializer)
-    throws JsonMappingException
+    final ValueDeserializer<?> elementDeserializer)
   {
     this.checkAllowed(type.toCanonical());
     return super.findCollectionLikeDeserializer(
@@ -146,35 +140,32 @@ public final class DmJsonRestrictedDeserializers extends SimpleDeserializers
   }
 
   @Override
-  public JsonDeserializer<?> findEnumDeserializer(
-    final Class<?> type,
+  public ValueDeserializer<?> findEnumDeserializer(
+    final JavaType type,
     final DeserializationConfig config,
-    final BeanDescription beanDesc)
-    throws JsonMappingException
+    final BeanDescription.Supplier beanDesc)
   {
-    this.checkAllowed(type.getCanonicalName());
+    this.checkAllowed(type.toCanonical());
     return super.findEnumDeserializer(type, config, beanDesc);
   }
 
   @Override
-  public JsonDeserializer<?> findTreeNodeDeserializer(
-    final Class<? extends JsonNode> nodeType,
+  public ValueDeserializer<?> findTreeNodeDeserializer(
+    final JavaType nodeType,
     final DeserializationConfig config,
-    final BeanDescription beanDesc)
-    throws JsonMappingException
+    final BeanDescription.Supplier beanDesc)
   {
-    this.checkAllowed(nodeType.getCanonicalName());
+    this.checkAllowed(nodeType.getTypeName());
     return super.findTreeNodeDeserializer(nodeType, config, beanDesc);
   }
 
   @Override
-  public JsonDeserializer<?> findReferenceDeserializer(
+  public ValueDeserializer<?> findReferenceDeserializer(
     final ReferenceType refType,
     final DeserializationConfig config,
-    final BeanDescription beanDesc,
+    final BeanDescription.Supplier beanDesc,
     final TypeDeserializer contentTypeDeserializer,
-    final JsonDeserializer<?> contentDeserializer)
-    throws JsonMappingException
+    final ValueDeserializer<?> contentDeserializer)
   {
     this.checkAllowed(refType.toCanonical());
     return super.findReferenceDeserializer(
@@ -186,14 +177,13 @@ public final class DmJsonRestrictedDeserializers extends SimpleDeserializers
   }
 
   @Override
-  public JsonDeserializer<?> findMapDeserializer(
+  public ValueDeserializer<?> findMapDeserializer(
     final MapType type,
     final DeserializationConfig config,
-    final BeanDescription beanDesc,
+    final BeanDescription.Supplier beanDesc,
     final KeyDeserializer keyDeserializer,
     final TypeDeserializer elementTypeDeserializer,
-    final JsonDeserializer<?> elementDeserializer)
-    throws JsonMappingException
+    final ValueDeserializer<?> elementDeserializer)
   {
     this.checkAllowed(type.toCanonical());
     return super.findMapDeserializer(
@@ -206,14 +196,13 @@ public final class DmJsonRestrictedDeserializers extends SimpleDeserializers
   }
 
   @Override
-  public JsonDeserializer<?> findMapLikeDeserializer(
+  public ValueDeserializer<?> findMapLikeDeserializer(
     final MapLikeType type,
     final DeserializationConfig config,
-    final BeanDescription beanDesc,
+    final BeanDescription.Supplier beanDesc,
     final KeyDeserializer keyDeserializer,
     final TypeDeserializer elementTypeDeserializer,
-    final JsonDeserializer<?> elementDeserializer)
-    throws JsonMappingException
+    final ValueDeserializer<?> elementDeserializer)
   {
     this.checkAllowed(type.toCanonical());
     return super.findMapLikeDeserializer(

@@ -8,12 +8,12 @@
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
     <artifactId>com.io7m.primogenitor.full</artifactId>
-    <version>9.0.0-beta0003</version>
+    <version>9.1.0</version>
   </parent>
 
   <groupId>com.io7m.dixmont</groupId>
   <artifactId>com.io7m.dixmont</artifactId>
-  <version>2.1.0</version>
+  <version>3.0.0</version>
 
   <packaging>pom</packaging>
   <name>com.io7m.dixmont</name>
@@ -28,12 +28,12 @@
 
   <properties>
     <!-- Configuration -->
-    <io7m.api.previousVersion>2.0.0</io7m.api.previousVersion>
+    <io7m.api.previousVersion>2.1.0</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>17</io7m.java.targetJavaVersion>
 
     <!-- Third-party dependencies. -->
-    <jackson.version>2.19.2</jackson.version>
-    <org.junit.version>5.13.4</org.junit.version>
+    <jackson.version>3.0.2</jackson.version>
+    <org.junit.version>5.14.1</org.junit.version>
   </properties>
 
   <licenses>
@@ -87,19 +87,11 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
+        <groupId>tools.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
         <version>${jackson.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
-        <version>${jackson.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
 
       <dependency>
@@ -117,7 +109,7 @@
       <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
-        <version>1.5.18</version>
+        <version>1.5.20</version>
       </dependency>
 
       <dependency>

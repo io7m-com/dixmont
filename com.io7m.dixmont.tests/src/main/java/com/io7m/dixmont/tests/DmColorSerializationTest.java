@@ -17,9 +17,9 @@
 package com.io7m.dixmont.tests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.json.JsonMapper;
 import com.io7m.dixmont.colors.DmColor;
 import com.io7m.dixmont.colors.DmColorModule;
 import org.junit.jupiter.api.Test;
@@ -52,11 +52,13 @@ public final class DmColorSerializationTest
   public void testSerialization()
     throws Exception
   {
-    final var mapper =
-      JsonMapper.builder()
-        .build();
+    final var builder =
+      JsonMapper.builder();
 
-    mapper.registerModule(DmColorModule.create());
+    builder.addModule(DmColorModule.create());
+
+    final var mapper =
+      builder.build();
 
     final var v0 =
       new Example(new DmColor(0.2, 0.3, 0.4));
