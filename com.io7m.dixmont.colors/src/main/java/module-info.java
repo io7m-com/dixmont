@@ -23,8 +23,8 @@ module com.io7m.dixmont.colors
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
 
-  requires transitive com.fasterxml.jackson.core;
-  requires transitive com.fasterxml.jackson.databind;
+  requires tools.jackson.core;
+  requires tools.jackson.databind;
 
   exports com.io7m.dixmont.colors;
 

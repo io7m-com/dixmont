@@ -17,8 +17,8 @@
 
 package com.io7m.dixmont.colors;
 
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.JacksonModule;
+import tools.jackson.databind.module.SimpleModule;
 
 /**
  * The color module.
@@ -37,7 +37,7 @@ public final class DmColorModule
    * @return The created module
    */
 
-  public static Module create()
+  public static JacksonModule create()
   {
     final var module = new SimpleModule();
     module.addDeserializer(DmColor.class, new DmColorDeserializer());

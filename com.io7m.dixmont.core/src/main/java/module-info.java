@@ -23,9 +23,9 @@ module com.io7m.dixmont.core
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
 
-  requires transitive com.fasterxml.jackson.core;
-  requires transitive com.fasterxml.jackson.databind;
-  requires transitive org.slf4j;
+  requires tools.jackson.core;
+  requires tools.jackson.databind;
+  requires org.slf4j;
 
   exports com.io7m.dixmont.core;
 }

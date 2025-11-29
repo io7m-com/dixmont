@@ -13,7 +13,7 @@
 
   <groupId>com.io7m.dixmont</groupId>
   <artifactId>com.io7m.dixmont</artifactId>
-  <version>2.2.0-SNAPSHOT</version>
+  <version>3.0.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>com.io7m.dixmont</name>
@@ -32,7 +32,7 @@
     <io7m.java.targetJavaVersion>17</io7m.java.targetJavaVersion>
 
     <!-- Third-party dependencies. -->
-    <jackson.version>2.20.1</jackson.version>
+    <jackson.version>3.0.2</jackson.version>
     <org.junit.version>5.14.1</org.junit.version>
   </properties>
 
@@ -87,7 +87,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.fasterxml.jackson</groupId>
+        <groupId>tools.jackson</groupId>
         <artifactId>jackson-bom</artifactId>
         <version>${jackson.version}</version>
         <type>pom</type>

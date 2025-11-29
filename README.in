@@ -32,7 +32,7 @@ $ mvn clean verify
 ### Usage
 
 Create a restricted serializer that is permitted to deserialize only the
-given classes and no others, and then register it with an `ObjectMapper`:
+given classes and no others, and then register it with a mapper:
 
 ```
 var serializers =
@@ -50,13 +50,13 @@ var serializers =
       "java.util.List<java.lang.String>")
     .build();
 
-var mapper =
-  JsonMapper.builder()
-    .build();
-
 final var simpleModule = new SimpleModule();
 simpleModule.setDeserializers(this.serializers);
-mapper.registerModule(simpleModule);
+
+final var mapper =
+  JsonMapper.builder()
+    .addModule(simpleModule)
+    .build();
 ```
 
 Parser code using the given `ObjectMapper` will be prevented from deserializing

@@ -16,11 +16,11 @@
 
 package com.io7m.dixmont.tests;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 import com.io7m.dixmont.core.DmJsonRestrictedDeserializers;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static tools.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static com.io7m.dixmont.tests.EnumExample.ENUM_EXAMPLE_A;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,11 +38,6 @@ public final class DmJsonRestrictedDeserializersTest
   private ObjectMapper createMapper(
     final Set<String> classes)
   {
-    final JsonMapper mapper =
-      JsonMapper.builder()
-        .disable(FAIL_ON_UNKNOWN_PROPERTIES)
-        .build();
-
     final var deserializers =
       DmJsonRestrictedDeserializers.builder()
         .allowClassNames(classes)
@@ -50,17 +45,22 @@ public final class DmJsonRestrictedDeserializersTest
 
     final var simpleModule = new SimpleModule();
     simpleModule.setDeserializers(deserializers);
-    mapper.registerModule(simpleModule);
-    return mapper;
+
+    final var builder = JsonMapper.builder();
+    builder.addModule(simpleModule);
+
+    return builder.disable(FAIL_ON_UNKNOWN_PROPERTIES)
+      .build();
   }
 
   @Test
   public void testNothingAllowed()
   {
     final var mapper = this.createMapper(Set.of());
-    assertThrows(JsonMappingException.class, () -> {
-      mapper.readValue("23", int.class);
-    });
+    assertThrows(
+      JacksonException.class, () -> {
+        mapper.readValue("23", int.class);
+      });
   }
 
   @Test
@@ -86,9 +86,10 @@ public final class DmJsonRestrictedDeserializersTest
 
     assertEquals(
       List.of(Integer.valueOf(23)),
-      mapper.readValue("[23]", new TypeReference<List<Integer>>()
-      {
-      })
+      mapper.readValue(
+        "[23]", new TypeReference<List<Integer>>()
+        {
+        })
     );
   }
 
@@ -158,9 +159,10 @@ public final class DmJsonRestrictedDeserializersTest
         Integer.valueOf(23),
         Integer.valueOf(24),
         Integer.valueOf(25)),
-      mapper.readValue("[23,24,25]", new TypeReference<Set<Integer>>()
-      {
-      })
+      mapper.readValue(
+        "[23,24,25]", new TypeReference<Set<Integer>>()
+        {
+        })
     );
   }
 }

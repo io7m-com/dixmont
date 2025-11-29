@@ -16,11 +16,9 @@
 
 package com.io7m.dixmont.colors;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
-import java.io.IOException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 /**
  * A serializer for color values.
@@ -55,8 +53,7 @@ public final class DmColorSerializer
   public void serialize(
     final DmColor value,
     final JsonGenerator jgen,
-    final SerializerProvider provider)
-    throws IOException
+    final SerializationContext provider)
   {
     jgen.writeString(value.toString());
   }
