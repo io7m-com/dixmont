@@ -21,6 +21,7 @@ import tools.jackson.databind.module.SimpleDeserializers;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -86,6 +87,28 @@ public interface DmJsonRestrictedDeserializerBuilderType
       this.allowClass(clazz);
     }
     return this;
+  }
+
+  /**
+   * Allow access to optionals of the given class.
+   *
+   * @param clazz The class
+   *
+   * @return this
+   *
+   * @since 3.0.0
+   */
+
+  default DmJsonRestrictedDeserializerBuilderType allowOptionalOfClass(
+    final Class<?> clazz)
+  {
+    return this.allowClass(clazz)
+      .allowClassName(
+        "%s<%s>".formatted(
+          Optional.class.getCanonicalName(),
+          clazz.getCanonicalName()
+        )
+      );
   }
 
   /**

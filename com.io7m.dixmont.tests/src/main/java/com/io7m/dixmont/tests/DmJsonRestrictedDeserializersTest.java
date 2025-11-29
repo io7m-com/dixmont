@@ -26,6 +26,7 @@ import tools.jackson.databind.module.SimpleModule;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.io7m.dixmont.tests.EnumExample.ENUM_EXAMPLE_A;
@@ -252,6 +253,34 @@ public final class DmJsonRestrictedDeserializersTest
         Integer.valueOf(25)),
       mapper.readValue(
         "[23,24,25]", new TypeReference<List<Integer>>()
+        {
+        })
+    );
+  }
+
+  @Test
+  public void testOptionalIntAllowedConvenience()
+    throws Exception
+  {
+    final var deserializers =
+      DmJsonRestrictedDeserializers.builder()
+        .allowOptionalOfClass(Integer.class)
+        .build();
+
+    final var simpleModule = new SimpleModule();
+    simpleModule.setDeserializers(deserializers);
+
+    final var builder = JsonMapper.builder();
+    builder.addModule(simpleModule);
+
+    final var mapper =
+      (ObjectMapper) builder.disable(FAIL_ON_UNKNOWN_PROPERTIES)
+        .build();
+
+    assertEquals(
+      Optional.of(Integer.valueOf(23)),
+      mapper.readValue(
+        "23", new TypeReference<Optional<Integer>>()
         {
         })
     );
