@@ -16,7 +16,7 @@
 
 package com.io7m.dixmont.core;
 
-import com.fasterxml.jackson.databind.module.SimpleDeserializers;
+import tools.jackson.databind.module.SimpleDeserializers;
 
 import java.util.Objects;
 import java.util.Set;

@@ -16,12 +16,11 @@
 
 package com.io7m.dixmont.colors;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.databind.exc.MismatchedInputException;
 
-import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
@@ -40,7 +39,7 @@ public final class DmColorDeserializer
 
   public DmColorDeserializer()
   {
-    this(null);
+    this(DmColor.class);
   }
 
   /**
@@ -59,7 +58,6 @@ public final class DmColorDeserializer
   public DmColor deserialize(
     final JsonParser p,
     final DeserializationContext ctxt)
-    throws IOException
   {
     final var text = p.getValueAsString();
 
@@ -75,10 +73,10 @@ public final class DmColorDeserializer
       );
     }
 
-    throw new JsonParseException(
+    throw MismatchedInputException.from(
       p,
-      "Color values must match the pattern %s".formatted(COLOR_PATTERN),
-      p.getCurrentLocation()
+      DmColor.class,
+      "Color values must match the pattern %s".formatted(COLOR_PATTERN)
     );
   }
 }
