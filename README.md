@@ -51,23 +51,43 @@ Create a restricted serializer that is permitted to deserialize only the
 given classes and no others, and then register it with a mapper:
 
 ```
-var serializers =
-  DmJsonRestrictedDeserializers.builder()
-    .allowClass(Optional.class)
-    .allowClass(Path.class)
-    .allowClass(String.class)
-    .allowClass(URI.class)
-    .allowClass(int.class)
-    .allowClass(double.class)
-    .allowClass(List.class)
-    .allowClassName(
-      "java.util.Optional<java.lang.Integer>")
-    .allowClassName(
-      "java.util.List<java.lang.String>")
-    .build();
+var builder =
+  DmJsonRestrictedDeserializers.builder();
 
+// Allow deserializing values of various "value" classes...
+builder.allowClass(Path.class)
+  .allowClass(String.class)
+  .allowClass(URI.class)
+  .allowClass(int.class)
+  .allowClass(double.class);
+
+// Allow java.util.Optional<java.lang.Integer>
+builder.allowOptionalOfClass(Integer.class);
+
+// Or, equivalently:
+builder.allowClassName("java.util.Optional<java.lang.Integer>")
+
+// Allow java.util.List<java.lang.String>
+builder.allowListsOfClass(String.class);
+
+// Or, equivalently:
+builder.allowClassName("java.util.List<java.lang.String>");
+
+// Allow java.util.Set<java.lang.String>
+builder.allowSetsOfClass(String.class);
+
+// Or, equivalently:
+builder.allowClassName("java.util.Set<java.lang.String>");
+
+// Allow java.util.Map<java.lang.Integer, java.lang.String>
+builder.allowMapsOfClass(Integer.class, String.class);
+
+// Or, equivalently:
+builder.allowClassName("java.util.Map<java.lang.Integer, java.lang.String>");
+
+final var serializers = builder.build();
 final var simpleModule = new SimpleModule();
-simpleModule.setDeserializers(this.serializers);
+simpleModule.setDeserializers(serializers);
 
 final var mapper =
   JsonMapper.builder()
