@@ -16,22 +16,22 @@
 
 package com.io7m.dixmont.tests;
 
+import com.io7m.dixmont.core.DmJsonRestrictedDeserializers;
+import org.junit.jupiter.api.Test;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.module.SimpleModule;
-import com.io7m.dixmont.core.DmJsonRestrictedDeserializers;
-import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static tools.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static com.io7m.dixmont.tests.EnumExample.ENUM_EXAMPLE_A;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static tools.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
 public final class DmJsonRestrictedDeserializersTest
 {
@@ -144,6 +144,35 @@ public final class DmJsonRestrictedDeserializersTest
   }
 
   @Test
+  public void testMapIntAllowedConvenience()
+    throws Exception
+  {
+    final var deserializers =
+      DmJsonRestrictedDeserializers.builder()
+        .allowMapsOfClass(Integer.class, String.class)
+        .build();
+
+    final var simpleModule = new SimpleModule();
+    simpleModule.setDeserializers(deserializers);
+
+    final var builder = JsonMapper.builder();
+    builder.addModule(simpleModule);
+
+    final var mapper =
+      (ObjectMapper) builder.disable(FAIL_ON_UNKNOWN_PROPERTIES)
+        .build();
+
+    assertEquals(
+      Map.of(Integer.valueOf(23), "25"),
+      mapper.readValue(
+        "{\"23\": \"25\"}",
+        new TypeReference<Map<Integer, String>>()
+        {
+        })
+    );
+  }
+
+  @Test
   public void testSetIntAllowed()
     throws Exception
   {
@@ -161,6 +190,68 @@ public final class DmJsonRestrictedDeserializersTest
         Integer.valueOf(25)),
       mapper.readValue(
         "[23,24,25]", new TypeReference<Set<Integer>>()
+        {
+        })
+    );
+  }
+
+  @Test
+  public void testSetIntAllowedConvenience()
+    throws Exception
+  {
+    final var deserializers =
+      DmJsonRestrictedDeserializers.builder()
+        .allowSetsOfClass(Integer.class)
+        .build();
+
+    final var simpleModule = new SimpleModule();
+    simpleModule.setDeserializers(deserializers);
+
+    final var builder = JsonMapper.builder();
+    builder.addModule(simpleModule);
+
+    final var mapper =
+      (ObjectMapper) builder.disable(FAIL_ON_UNKNOWN_PROPERTIES)
+        .build();
+
+    assertEquals(
+      Set.of(
+        Integer.valueOf(23),
+        Integer.valueOf(24),
+        Integer.valueOf(25)),
+      mapper.readValue(
+        "[23,24,25]", new TypeReference<Set<Integer>>()
+        {
+        })
+    );
+  }
+
+  @Test
+  public void testListIntAllowedConvenience()
+    throws Exception
+  {
+    final var deserializers =
+      DmJsonRestrictedDeserializers.builder()
+        .allowListsOfClass(Integer.class)
+        .build();
+
+    final var simpleModule = new SimpleModule();
+    simpleModule.setDeserializers(deserializers);
+
+    final var builder = JsonMapper.builder();
+    builder.addModule(simpleModule);
+
+    final var mapper =
+      (ObjectMapper) builder.disable(FAIL_ON_UNKNOWN_PROPERTIES)
+        .build();
+
+    assertEquals(
+      List.of(
+        Integer.valueOf(23),
+        Integer.valueOf(24),
+        Integer.valueOf(25)),
+      mapper.readValue(
+        "[23,24,25]", new TypeReference<List<Integer>>()
         {
         })
     );

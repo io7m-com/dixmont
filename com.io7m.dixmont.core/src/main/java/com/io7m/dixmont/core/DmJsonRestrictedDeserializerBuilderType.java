@@ -18,6 +18,8 @@ package com.io7m.dixmont.core;
 
 import tools.jackson.databind.module.SimpleDeserializers;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -84,6 +86,76 @@ public interface DmJsonRestrictedDeserializerBuilderType
       this.allowClass(clazz);
     }
     return this;
+  }
+
+  /**
+   * Allow access to lists of the given class.
+   *
+   * @param clazz The class
+   *
+   * @return this
+   *
+   * @since 3.0.0
+   */
+
+  default DmJsonRestrictedDeserializerBuilderType allowListsOfClass(
+    final Class<?> clazz)
+  {
+    return this.allowClass(clazz)
+      .allowClassName(
+        "%s<%s>".formatted(
+          List.class.getCanonicalName(),
+          clazz.getCanonicalName()
+        )
+      );
+  }
+
+  /**
+   * Allow access to sets of the given class.
+   *
+   * @param clazz The class
+   *
+   * @return this
+   *
+   * @since 3.0.0
+   */
+
+  default DmJsonRestrictedDeserializerBuilderType allowSetsOfClass(
+    final Class<?> clazz)
+  {
+    return this.allowClass(clazz)
+      .allowClassName(
+        "%s<%s>".formatted(
+          Set.class.getCanonicalName(),
+          clazz.getCanonicalName()
+        )
+      );
+  }
+
+  /**
+   * Allow access to maps of the given key and value classes.
+   *
+   * @param keyClass   The key class
+   * @param valueClass The value class
+   *
+   * @return this
+   *
+   * @since 3.0.0
+   */
+
+  default DmJsonRestrictedDeserializerBuilderType allowMapsOfClass(
+    final Class<?> keyClass,
+    final Class<?> valueClass)
+  {
+    return this.allowClass(keyClass)
+      .allowClass(valueClass)
+      .allowClassName(
+        "%s<%s,%s>".formatted(
+          Map.class.getCanonicalName(),
+          keyClass.getCanonicalName(),
+          valueClass.getCanonicalName()
+        )
+      );
   }
 
   /**
