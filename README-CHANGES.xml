@@ -54,7 +54,7 @@
         <c:change date="2025-08-26T00:00:00+00:00" summary="Target JDK 17 bytecode."/>
       </c:changes>
     </c:release>
-    <c:release date="2025-11-29T10:54:48+00:00" is-open="false" ticket-system="com.github.io7m.dixmont" version="3.0.0">
+    <c:release date="2025-11-29T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.dixmont" version="3.0.0">
       <c:changes>
         <c:change date="2025-10-01T00:00:00+00:00" summary="Update ch.qos.logback:logback-classic:1.5.18 → 1.5.19."/>
         <c:change date="2025-10-01T00:00:00+00:00" summary="Update org.junit:junit-bom:5.13.4 → 5.14.0."/>
@@ -70,6 +70,15 @@
         <c:change date="2025-11-29T00:00:00+00:00" summary="Add convenient List/Map/Set methods.">
           <c:tickets>
             <c:ticket id="1"/>
+          </c:tickets>
+        </c:change>
+      </c:changes>
+    </c:release>
+    <c:release date="2025-12-10T15:35:26+00:00" is-open="true" ticket-system="com.github.io7m.dixmont" version="3.1.0">
+      <c:changes>
+        <c:change date="2025-12-10T15:35:26+00:00" summary="Add sorted map and sorted set convenience methods.">
+          <c:tickets>
+            <c:ticket id="69"/>
           </c:tickets>
         </c:change>
       </c:changes>

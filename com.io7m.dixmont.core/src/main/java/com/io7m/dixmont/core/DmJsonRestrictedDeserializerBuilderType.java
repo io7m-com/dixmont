@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
 
 /**
  * A mutable builder for restricted deserializers.
@@ -175,6 +177,54 @@ public interface DmJsonRestrictedDeserializerBuilderType
       .allowClassName(
         "%s<%s,%s>".formatted(
           Map.class.getCanonicalName(),
+          keyClass.getCanonicalName(),
+          valueClass.getCanonicalName()
+        )
+      );
+  }
+
+  /**
+   * Allow access to sets of the given class.
+   *
+   * @param clazz The class
+   *
+   * @return this
+   *
+   * @since 3.1.0
+   */
+
+  default DmJsonRestrictedDeserializerBuilderType allowSortedSetsOfClass(
+    final Class<?> clazz)
+  {
+    return this.allowClass(clazz)
+      .allowClassName(
+        "%s<%s>".formatted(
+          SortedSet.class.getCanonicalName(),
+          clazz.getCanonicalName()
+        )
+      );
+  }
+
+  /**
+   * Allow access to maps of the given key and value classes.
+   *
+   * @param keyClass   The key class
+   * @param valueClass The value class
+   *
+   * @return this
+   *
+   * @since 3.1.0
+   */
+
+  default DmJsonRestrictedDeserializerBuilderType allowSortedMapsOfClass(
+    final Class<?> keyClass,
+    final Class<?> valueClass)
+  {
+    return this.allowClass(keyClass)
+      .allowClass(valueClass)
+      .allowClassName(
+        "%s<%s,%s>".formatted(
+          SortedMap.class.getCanonicalName(),
           keyClass.getCanonicalName(),
           valueClass.getCanonicalName()
         )

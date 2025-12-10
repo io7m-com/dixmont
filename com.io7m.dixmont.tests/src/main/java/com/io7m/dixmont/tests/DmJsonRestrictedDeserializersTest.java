@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
 
 import static com.io7m.dixmont.tests.EnumExample.ENUM_EXAMPLE_A;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -309,6 +311,87 @@ public final class DmJsonRestrictedDeserializersTest
       Integer.valueOf(23),
       mapper.readValue(
         "23", new TypeReference<Integer>()
+        {
+        })
+    );
+  }
+
+  @Test
+  public void testSortedMapIntAllowed()
+    throws Exception
+  {
+    final var deserializers =
+      DmJsonRestrictedDeserializers.builder()
+        .allowSortedMapsOfClass(Integer.class, String.class)
+        .build();
+
+    final var simpleModule = new SimpleModule();
+    simpleModule.setDeserializers(deserializers);
+
+    final var builder = JsonMapper.builder();
+    builder.addModule(simpleModule);
+
+    final var mapper =
+      (ObjectMapper) builder.disable(FAIL_ON_UNKNOWN_PROPERTIES)
+        .build();
+
+    assertEquals(
+      Map.of(Integer.valueOf(23), "25"),
+      mapper.readValue(
+        "{\"23\": \"25\"}",
+        new TypeReference<SortedMap<Integer, String>>()
+        {
+        })
+    );
+  }
+
+  @Test
+  public void testSortedSetIntAllowed()
+    throws Exception
+  {
+    final var mapper =
+      this.createMapper(
+        Set.of(
+          Integer.class.getCanonicalName(),
+          "java.util.SortedSet<java.lang.Integer>"
+        ));
+
+    assertEquals(
+      Set.of(
+        Integer.valueOf(23),
+        Integer.valueOf(24),
+        Integer.valueOf(25)),
+      mapper.readValue(
+        "[23,24,25]", new TypeReference<SortedSet<Integer>>()
+        {
+        })
+    );
+  }
+
+  @Test
+  public void testSortedMapIntAllowedConvenience()
+    throws Exception
+  {
+    final var deserializers =
+      DmJsonRestrictedDeserializers.builder()
+        .allowSortedMapsOfClass(Integer.class, String.class)
+        .build();
+
+    final var simpleModule = new SimpleModule();
+    simpleModule.setDeserializers(deserializers);
+
+    final var builder = JsonMapper.builder();
+    builder.addModule(simpleModule);
+
+    final var mapper =
+      (ObjectMapper) builder.disable(FAIL_ON_UNKNOWN_PROPERTIES)
+        .build();
+
+    assertEquals(
+      Map.of(Integer.valueOf(23), "25"),
+      mapper.readValue(
+        "{\"23\": \"25\"}",
+        new TypeReference<SortedMap<Integer, String>>()
         {
         })
     );
