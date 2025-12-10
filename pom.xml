@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
-    <artifactId>com.io7m.primogenitor.full</artifactId>
+    <artifactId>com.io7m.primogenitor.lite</artifactId>
     <version>9.1.0</version>
   </parent>
 
   <groupId>com.io7m.dixmont</groupId>
   <artifactId>com.io7m.dixmont</artifactId>
-  <version>3.0.0</version>
+  <version>3.1.0</version>
 
   <packaging>pom</packaging>
   <name>com.io7m.dixmont</name>
@@ -27,8 +25,10 @@
   </modules>
 
   <properties>
+    <io7m.workID>0e05160f-945c-397c-9745-f8b001bc9bc5</io7m.workID>
+
     <!-- Configuration -->
-    <io7m.api.previousVersion>2.1.0</io7m.api.previousVersion>
+    <io7m.api.previousVersion>3.0.0</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>17</io7m.java.targetJavaVersion>
 
     <!-- Third-party dependencies. -->
@@ -137,15 +137,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
-
-    <plugins>
-      <!-- Generate a site -->
-      <plugin>
-        <groupId>com.io7m.minisite</groupId>
-        <artifactId>com.io7m.minisite.maven_plugin</artifactId>
-        <inherited>false</inherited>
-      </plugin>
-    </plugins>
   </build>
 
 </project>
