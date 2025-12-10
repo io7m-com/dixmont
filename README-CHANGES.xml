@@ -74,9 +74,9 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2025-12-10T15:35:26+00:00" is-open="true" ticket-system="com.github.io7m.dixmont" version="3.1.0">
+    <c:release date="2025-12-10T15:43:10+00:00" is-open="false" ticket-system="com.github.io7m.dixmont" version="3.1.0">
       <c:changes>
-        <c:change date="2025-12-10T15:35:26+00:00" summary="Add sorted map and sorted set convenience methods.">
+        <c:change date="2025-12-10T00:00:00+00:00" summary="Add sorted map and sorted set convenience methods.">
           <c:tickets>
             <c:ticket id="69"/>
           </c:tickets>
