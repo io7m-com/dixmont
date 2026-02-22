@@ -16,6 +16,7 @@
 
 package com.io7m.dixmont.core;
 
+import org.osgi.annotation.versioning.ProviderType;
 import tools.jackson.databind.module.SimpleDeserializers;
 
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.SortedSet;
  * A mutable builder for restricted deserializers.
  */
 
+@ProviderType
 public interface DmJsonRestrictedDeserializerBuilderType
 {
   /**
