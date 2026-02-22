@@ -26,6 +26,7 @@ module com.io7m.dixmont.core
   requires tools.jackson.core;
   requires tools.jackson.databind;
   requires org.slf4j;
+  requires com.github.javaparser.core;
 
   exports com.io7m.dixmont.core;
 }

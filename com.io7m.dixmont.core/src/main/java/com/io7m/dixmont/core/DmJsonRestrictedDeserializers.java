@@ -16,6 +16,8 @@
 
 package com.io7m.dixmont.core;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tools.jackson.databind.BeanDescription;
@@ -35,6 +37,7 @@ import tools.jackson.databind.type.ReferenceType;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * A restricted serializer that only allows deserializing values from a fixed
@@ -47,12 +50,16 @@ public final class DmJsonRestrictedDeserializers extends SimpleDeserializers
     LoggerFactory.getLogger(DmJsonRestrictedDeserializers.class);
 
   private final Set<String> allowClasses;
+  private final Set<String> allowPackages;
 
   private DmJsonRestrictedDeserializers(
-    final Set<String> inAllowClasses)
+    final Set<String> inAllowClasses,
+    final Set<String> inAllowPackages)
   {
     this.allowClasses =
       Objects.requireNonNull(inAllowClasses, "allowClasses");
+    this.allowPackages =
+      Objects.requireNonNull(inAllowPackages, "allowPackages");
   }
 
   /**
@@ -71,10 +78,35 @@ public final class DmJsonRestrictedDeserializers extends SimpleDeserializers
   {
     LOG.trace("checkAllowed: {}", name);
 
+    if (this.checkPackageExplicitlyAllowed(name)) {
+      return;
+    }
+
     if (!this.allowClasses.contains(name)) {
       throw new IllegalArgumentException(
         String.format("Deserializing a value of type %s is not allowed", name)
       );
+    }
+  }
+
+  private boolean checkPackageExplicitlyAllowed(
+    final String name)
+  {
+    try {
+      final Type type =
+        StaticJavaParser.parseType(name);
+
+      final var scopeOpt =
+        type.asClassOrInterfaceType()
+          .getScope();
+
+      if (scopeOpt.isPresent()) {
+        final var scope = scopeOpt.get();
+        return this.allowPackages.contains(scope.asString());
+      }
+      return false;
+    } catch (final Exception e) {
+      return false;
     }
   }
 
@@ -217,11 +249,30 @@ public final class DmJsonRestrictedDeserializers extends SimpleDeserializers
   private static final class Builder
     implements DmJsonRestrictedDeserializerBuilderType
   {
+    private static final Pattern TRAILING_DOTS =
+      Pattern.compile("[.]+$");
+
     private final HashSet<String> allowClasses;
+    private final HashSet<String> allowPackages;
 
     private Builder()
     {
       this.allowClasses = new HashSet<>();
+      this.allowPackages = new HashSet<>();
+    }
+
+    @Override
+    public DmJsonRestrictedDeserializerBuilderType allowEntirePackage(
+      final String name)
+    {
+      Objects.requireNonNull(name, "name");
+
+      final var withoutTrailing =
+        TRAILING_DOTS.matcher(name)
+          .replaceAll("");
+
+      this.allowPackages.add("%s.".formatted(withoutTrailing));
+      return this;
     }
 
     @Override
@@ -238,7 +289,12 @@ public final class DmJsonRestrictedDeserializers extends SimpleDeserializers
     {
       final var copyAllowClasses = Set.copyOf(this.allowClasses);
       this.allowClasses.clear();
-      return new DmJsonRestrictedDeserializers(copyAllowClasses);
+      final var copyAllowPackages = Set.copyOf(this.allowPackages);
+      this.allowPackages.clear();
+      return new DmJsonRestrictedDeserializers(
+        copyAllowClasses,
+        copyAllowPackages
+      );
     }
   }
 }

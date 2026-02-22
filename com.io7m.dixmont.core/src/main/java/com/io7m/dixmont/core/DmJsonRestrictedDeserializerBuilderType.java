@@ -33,6 +33,19 @@ import java.util.SortedSet;
 public interface DmJsonRestrictedDeserializerBuilderType
 {
   /**
+   * Allow access to all classes in the given package.
+   *
+   * @param name The package name
+   *
+   * @return this
+   *
+   * @since 3.2.0
+   */
+
+  DmJsonRestrictedDeserializerBuilderType allowEntirePackage(
+    String name);
+
+  /**
    * Allow access to the given class.
    *
    * @param clazz The class
